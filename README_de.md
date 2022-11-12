@@ -9,7 +9,7 @@
 
 Als neue Generation von Temperatur- und Feuchtigkeitssensoren setzt der AHT20 einen neuen Standard in Bezug auf Größe und Leistung: ein zweireihiges SMD-Gehäuse ohne Flachstifte, geeignet für Reflow-Löten, Unterseite 3 x 3 mm, Höhe 1,0 mm. Der Sensor gibt kalibrierte digitale Signale aus im Standard-ICC-Format. AHT20 ist mit einem neu entwickelten ASIC-dedizierten Chip, einem verbesserten kapazitiven MEMS-Halbleiter-Feuchtigkeitssensorelement und einem Standard-On-Chip-Temperatursensorelement ausgestattet. Seine Leistung wurde stark verbessert oder übertrifft sogar das Zuverlässigkeitsniveau der vorherigen Sensorgeneration. Eine Generation von Temperatur- und Feuchtigkeitssensoren wurde verbessert, um ihre Leistung in rauen Umgebungen stabiler zu machen. Jeder Sensor wird kalibriert und getestet, und die Produktchargennummer ist auf der Oberfläche des Produkts aufgedruckt. Durch Verbesserungen und Miniaturisierung des Sensors ist dieser kostengünstiger und letztendlich profitieren alle Geräte von modernsten energiesparenden Betriebsmodi. Es wird in der Unterhaltungselektronik, Medizin, Automobilindustrie, Industrie, Meteorologie und anderen Bereichen eingesetzt.
 
-Libdriver AHT20 ist der voll funktionsfähige Treiber von AHT20, der von LibDriver gestartet wurde. Er bietet die Funktion zum Lesen von Temperatur und relativer Luftfeuchtigkeit. LibDriver ist MISRA-konform.
+LibDriver AHT20 ist der voll funktionsfähige Treiber von AHT20, der von LibDriver gestartet wurde. Er bietet die Funktion zum Lesen von Temperatur und relativer Luftfeuchtigkeit. LibDriver ist MISRA-konform.
 
 ### Inhaltsverzeichnis
 
