@@ -215,6 +215,12 @@ uint8_t aht20_init(aht20_handle_t *handle)
         
         return 3;                                                      /* return error */
     }
+    if (handle->delay_ms == NULL)                                      /* check delay_ms */
+    {
+        handle->debug_print("aht20: delay_ms is null.\n");             /* delay_ms is null */
+        
+        return 3;                                                      /* return error */
+    }
     
     if (handle->iic_init() != 0)                                       /* iic init */
     {
