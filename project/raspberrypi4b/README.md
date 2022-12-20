@@ -1,10 +1,10 @@
-### 1. Chip
+### 1. Board
 
-#### 1.1 Chip Info
+#### 1.1 Board Info
 
-chip name : Raspberry Pi 4B.
+Board Name: Raspberry Pi 4B.
 
-iic pin: SCL/SDA GPIO3/GPIO2.
+IIC Pin: SCL/SDA GPIO3/GPIO2.
 
 ### 2. Install
 
@@ -74,17 +74,35 @@ find_package(aht20 REQUIRED)
 
 #### 3.1 Command Instruction
 
-​          aht20 is a basic command which can test all aht20 driver function:
+1. Show aht20 help.
 
-​           -h        show aht20 help 
+   ```shell
+   aht20 (-i | --information)
+   ```
 
-​           -i         show aht20 chip and driver information.
+2. Show aht20 chip and driver information.
 
-​           -p       show aht20 pin connections of the current board.
+   ```shell
+   aht20 (-h | --help)
+   ```
 
-​           -t read <times>        run aht20 read test. times means test times. 
+3. Show aht20 pin connections of the current board.
 
-​           -c read <times>        run aht20 read function. times means test times.
+   ```shell
+   aht20 (-p | --port)
+   ```
+
+4. Run aht20 read test, times means test times.
+
+   ```shell
+   aht20 (-t read | --test=read) [--times=<num>]
+   ```
+
+5. Run aht20 read function, times means test times.
+
+   ```shell
+   aht20 (-e read | --example=read) [--times=<num>]
+   ```
 
 #### 3.2 Command Example
 
@@ -110,7 +128,7 @@ aht20: SDA connected to GPIO2(BCM).
 ```
 
 ```shell
-./aht20 -t read 3
+./aht20 -t read --times=3
 
 aht20: chip is ASAIR AHT20.
 aht20: manufacturer is ASAIR.
@@ -122,41 +140,45 @@ aht20: max current is 0.98mA.
 aht20: max temperature is 85.0C.
 aht20: min temperature is -40.0C.
 aht20: start read test.
-aht20: temperature: 20.5C.
-aht20: humidity: 51%.
-aht20: temperature: 20.4C.
-aht20: humidity: 50%.
-aht20: temperature: 20.4C.
-aht20: humidity: 49%.
+aht20: temperature: 27.7C.
+aht20: humidity: 24%.
+aht20: temperature: 27.6C.
+aht20: humidity: 24%.
+aht20: temperature: 27.6C.
+aht20: humidity: 24%.
 aht20: finish read test.
 ```
 
 ```shell
-./aht20 -c read 3
+./aht20 -e read --times=3
 
 aht20: 1/3.
-aht20: temperature is 26.61C.
-aht20: humidity is 78%.
+aht20: temperature is 27.67C.
+aht20: humidity is 23%.
 aht20: 2/3.
-aht20: temperature is 27.76C.
-aht20: humidity is 77%.
+aht20: temperature is 27.66C.
+aht20: humidity is 23%.
 aht20: 3/3.
-aht20: temperature is 28.59C.
-aht20: humidity is 76%.
+aht20: temperature is 27.68C.
+aht20: humidity is 23%.
 ```
 
 ```shell
 ./aht20 -h
 
-aht20 -h
-	show aht20 help.
-aht20 -i
-	show aht20 chip and driver information.
-aht20 -p
-	show aht20 pin connections of the current board.
-aht20 -t read <times>
-	run aht20 read test.times means test times.
-aht20 -c read <times>
-	run aht20 read function.times means test times.
+Usage:
+  aht20 (-i | --information)
+  aht20 (-h | --help)
+  aht20 (-p | --port)
+  aht20 (-t read | --test=read) [--times=<num>]
+  aht20 (-e read | --example=read) [--times=<num>]
+
+Options:
+  -e <read>, --example=<read>    Run the driver example.
+  -h, --help                     Show the help.
+  -i, --information              Show the chip information.
+  -p, --port                     Display the pin connections of the current board.
+  -t <read>, --test=<read>       Run the driver test.
+      --times=<num>              Set the running times.([default: 3])
 ```
 
