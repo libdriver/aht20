@@ -40,13 +40,14 @@
 #include "clock.h"
 #include "delay.h"
 #include "uart.h"
+#include "getopt.h"
 #include <stdlib.h>
 
 /**
  * @brief global var definition
  */
 uint8_t g_buf[256];        /**< uart buffer */
-uint16_t g_len;            /**< uart buffer length */
+volatile uint16_t g_len;   /**< uart buffer length */
 
 /**
  * @brief     aht20 full function
@@ -60,129 +61,213 @@ uint16_t g_len;            /**< uart buffer length */
  */
 uint8_t aht20(uint8_t argc, char **argv)
 {
+    int c;
+    int longindex = 0;
+    const char short_options[] = "hipe:t:";
+    const struct option long_options[] =
+    {
+        {"help", no_argument, NULL, 'h'},
+        {"information", no_argument, NULL, 'i'},
+        {"port", no_argument, NULL, 'p'},
+        {"example", required_argument, NULL, 'e'},
+        {"test", required_argument, NULL, 't'},
+        {"times", required_argument, NULL, 1},
+        {NULL, 0, NULL, 0},
+    };
+    char type[32] = "unknow";
+    uint32_t times = 3;
+    
+    /* if no params */
     if (argc == 1)
     {
+        /* goto the help */
         goto help;
     }
-    else if (argc == 2)
+    
+    /* init 0 */
+    optind = 0;
+    
+    /* parse */
+    do
     {
-        if (strcmp("-i", argv[1]) == 0)
+        /* parse the args */
+        c = getopt_long(argc, argv, short_options, long_options, &longindex);
+        
+        /* judge the result */
+        switch (c)
         {
-            aht20_info_t info;
-            
-            /* print aht20 information */
-            aht20_info(&info);
-            aht20_interface_debug_print("aht20: chip is %s.\n", info.chip_name);
-            aht20_interface_debug_print("aht20: manufacturer is %s.\n", info.manufacturer_name);
-            aht20_interface_debug_print("aht20: interface is %s.\n", info.interface);
-            aht20_interface_debug_print("aht20: driver version is %d.%d.\n", info.driver_version / 1000, (info.driver_version % 1000) / 100);
-            aht20_interface_debug_print("aht20: min supply voltage is %0.1fV.\n", info.supply_voltage_min_v);
-            aht20_interface_debug_print("aht20: max supply voltage is %0.1fV.\n", info.supply_voltage_max_v);
-            aht20_interface_debug_print("aht20: max current is %0.2fmA.\n", info.max_current_ma);
-            aht20_interface_debug_print("aht20: max temperature is %0.1fC.\n", info.temperature_max);
-            aht20_interface_debug_print("aht20: min temperature is %0.1fC.\n", info.temperature_min);
-            
-            return 0;
-        }
-        else if (strcmp("-p", argv[1]) == 0)
-        {
-            /* print pin connection */
-            aht20_interface_debug_print("aht20: SCL connected to GPIOB PIN8.\n");
-            aht20_interface_debug_print("aht20: SDA connected to GPIOB PIN9.\n");
-            
-            return 0;
-        }
-        else if (strcmp("-h", argv[1]) == 0)
-        {
-            help:
-            
-            aht20_interface_debug_print("aht20 -h\n\tshow aht20 help.\n");
-            aht20_interface_debug_print("aht20 -i\n\tshow aht20 chip and driver information.\n");
-            aht20_interface_debug_print("aht20 -p\n\tshow aht20 pin connections of the current board.\n");
-            aht20_interface_debug_print("aht20 -t read <times>\n\trun aht20 read test.times means test times.\n");
-            aht20_interface_debug_print("aht20 -c read <times>\n\trun aht20 read function.times means test times.\n");
-            
-            return 0;
-        }
-        /* param is invalid */
-        else
-        {
-            return 5;
-        }
-    }
-    else if (argc == 4)
-    {
-        /* run test */
-        if (strcmp("-t", argv[1]) == 0)
-        {
-             /* read test */
-            if (strcmp("read", argv[2]) == 0)
+            /* help */
+            case 'h' :
             {
-                /* run read test */
-                if (aht20_read_test(atoi(argv[3])) != 0)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+                /* set the type */
+                memset(type, 0, sizeof(char) * 32);
+                snprintf(type, 32, "h");
+                
+                break;
             }
-            /* param is invalid */
-            else
+            
+            /* information */
+            case 'i' :
+            {
+                /* set the type */
+                memset(type, 0, sizeof(char) * 32);
+                snprintf(type, 32, "i");
+                
+                break;
+            }
+            
+            /* port */
+            case 'p' :
+            {
+                /* set the type */
+                memset(type, 0, sizeof(char) * 32);
+                snprintf(type, 32, "p");
+                
+                break;
+            }
+            
+            /* example */
+            case 'e' :
+            {
+                /* set the type */
+                memset(type, 0, sizeof(char) * 32);
+                snprintf(type, 32, "e_%s", optarg);
+                
+                break;
+            }
+            
+            /* test */
+            case 't' :
+            {
+                /* set the type */
+                memset(type, 0, sizeof(char) * 32);
+                snprintf(type, 32, "t_%s", optarg);
+                
+                break;
+            }
+            
+            /* running times */
+            case 1 :
+            {
+                /* set the times */
+                times = atol(optarg);
+                
+                break;
+            } 
+            
+            /* the end */
+            case -1 :
+            {
+                break;
+            }
+            
+            /* others */
+            default :
             {
                 return 5;
             }
         }
-        /* run common */
-        else if (strcmp("-c", argv[1]) == 0)
+    } while (c != -1);
+
+    /* run the function */
+    if (strcmp("t_read", type) == 0)
+    {
+        /* run read test */
+        if (aht20_read_test(times) != 0)
         {
-             /* basic read */
-            if (strcmp("read", argv[2]) == 0)
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else if (strcmp("e_read", type) == 0)
+    {
+        uint8_t res;
+        uint32_t i;
+        float temperature;
+        uint8_t humidity;
+        
+        /* basic init */
+        res = aht20_basic_init();
+        if (res != 0)
+        {
+            return 1;
+        }
+        
+        /* loop */
+        for (i = 0; i < times; i++)
+        {
+            /* delay 2000ms */
+            aht20_interface_delay_ms(2000);
+            
+            /* read data */
+            res = aht20_basic_read((float *)&temperature, (uint8_t *)&humidity);
+            if (res != 0)
             {
-                uint8_t res;
-                uint32_t times;
-                uint32_t i;
-                float temperature;
-                uint8_t humidity;
-                
-                res = aht20_basic_init();
-                if (res != 0)
-                {
-                    return 1;
-                }
-                times = atoi(argv[3]);
-                for (i = 0; i < times; i++)
-                {
-                    aht20_interface_delay_ms(2000);
-                    res = aht20_basic_read((float *)&temperature, (uint8_t *)&humidity);
-                    if (res != 0)
-                    {
-                        (void)aht20_basic_deinit();
-                        
-                        return 1;
-                    }
-                    aht20_interface_debug_print("aht20: %d/%d.\n", (uint32_t)(i+1), (uint32_t)times);
-                    aht20_interface_debug_print("aht20: temperature is %0.2fC.\n", temperature);
-                    aht20_interface_debug_print("aht20: humidity is %d%%.\n", humidity); 
-                }
                 (void)aht20_basic_deinit();
                 
-                return 0;
+                return 1;
             }
-            /* param is invalid */
-            else
-            {
-                return 5;
-            }
+            
+            /* output */
+            aht20_interface_debug_print("aht20: %d/%d.\n", (uint32_t)(i + 1), (uint32_t)times);
+            aht20_interface_debug_print("aht20: temperature is %0.2fC.\n", temperature);
+            aht20_interface_debug_print("aht20: humidity is %d%%.\n", humidity); 
         }
-        /* param is invalid */
-        else
-        {
-            return 5;
-        }
+        
+        /* deinit */
+        (void)aht20_basic_deinit();
+        
+        return 0;
     }
-    /* param is invalid */
+    else if (strcmp("h", type) == 0)
+    {
+        help:
+        aht20_interface_debug_print("Usage:\n");
+        aht20_interface_debug_print("  aht20 (-i | --information)\n");
+        aht20_interface_debug_print("  aht20 (-h | --help)\n");
+        aht20_interface_debug_print("  aht20 (-p | --port)\n");
+        aht20_interface_debug_print("  aht20 (-t read | --test=read) [--times=<num>]\n");
+        aht20_interface_debug_print("  aht20 (-e read | --example=read) [--times=<num>]\n");
+        aht20_interface_debug_print("\n");
+        aht20_interface_debug_print("Options:\n");
+        aht20_interface_debug_print("  -e <read>, --example=<read>    Run the driver example.\n");
+        aht20_interface_debug_print("  -h, --help                     Show the help.\n");
+        aht20_interface_debug_print("  -i, --information              Show the chip information.\n");
+        aht20_interface_debug_print("  -p, --port                     Display the pin connections of the current board.\n");
+        aht20_interface_debug_print("  -t <read>, --test=<read>       Run the driver test.\n");
+        aht20_interface_debug_print("      --times=<num>              Set the running times.([default: 3])\n");
+        
+        return 0;
+    }
+    else if (strcmp("i", type) == 0)
+    {
+        aht20_info_t info;
+        
+        /* print aht20 information */
+        aht20_info(&info);
+        aht20_interface_debug_print("aht20: chip is %s.\n", info.chip_name);
+        aht20_interface_debug_print("aht20: manufacturer is %s.\n", info.manufacturer_name);
+        aht20_interface_debug_print("aht20: interface is %s.\n", info.interface);
+        aht20_interface_debug_print("aht20: driver version is %d.%d.\n", info.driver_version / 1000, (info.driver_version % 1000) / 100);
+        aht20_interface_debug_print("aht20: min supply voltage is %0.1fV.\n", info.supply_voltage_min_v);
+        aht20_interface_debug_print("aht20: max supply voltage is %0.1fV.\n", info.supply_voltage_max_v);
+        aht20_interface_debug_print("aht20: max current is %0.2fmA.\n", info.max_current_ma);
+        aht20_interface_debug_print("aht20: max temperature is %0.1fC.\n", info.temperature_max);
+        aht20_interface_debug_print("aht20: min temperature is %0.1fC.\n", info.temperature_min);
+        
+        return 0;
+    }
+    else if (strcmp("p", type) == 0)
+    {
+        /* print pin connection */
+        aht20_interface_debug_print("aht20: SCL connected to GPIOB PIN8.\n");
+        aht20_interface_debug_print("aht20: SDA connected to GPIOB PIN9.\n");
+        
+        return 0;
+    }
     else
     {
         return 5;
@@ -203,19 +288,19 @@ int main(void)
     /* delay init */
     delay_init();
     
-    /* uart1 init */
-    uart1_init(115200);
+    /* uart init */
+    uart_init(115200);
     
     /* shell init && register aht20 fuction */
     shell_init();
     shell_register("aht20", aht20);
-    uart1_print("aht20: welcome to libdriver aht20.\n");
+    uart_print("aht20: welcome to libdriver aht20.\n");
     
     while (1)
     {
         /* read uart */
-        g_len = uart1_read(g_buf, 256);
-        if (g_len)
+        g_len = uart_read(g_buf, 256);
+        if (g_len != 0)
         {
             /* run shell */
             res = shell_parse((char *)g_buf, g_len);
@@ -225,29 +310,29 @@ int main(void)
             }
             else if (res == 1)
             {
-                uart1_print("aht20: run failed.\n");
+                uart_print("aht20: run failed.\n");
             }
             else if (res == 2)
             {
-                uart1_print("aht20: unknow command.\n");
+                uart_print("aht20: unknow command.\n");
             }
             else if (res == 3)
             {
-                uart1_print("aht20: length is too long.\n");
+                uart_print("aht20: length is too long.\n");
             }
             else if (res == 4)
             {
-                uart1_print("aht20: pretreat failed.\n");
+                uart_print("aht20: pretreat failed.\n");
             }
             else if (res == 5)
             {
-                uart1_print("aht20: param is invalid.\n");
+                uart_print("aht20: param is invalid.\n");
             }
             else
             {
-                uart1_print("aht20: unknow status code.\n");
+                uart_print("aht20: unknow status code.\n");
             }
-            uart1_flush();
+            uart_flush();
         }
         delay_ms(100);
     }
