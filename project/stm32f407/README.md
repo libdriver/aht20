@@ -40,13 +40,13 @@ We use '\n' to wrap lines.If your serial port assistant displays exceptions (e.g
 
 #### 3.1 Command Instruction
 
-1. Show aht20 help.
+1. Show aht20 chip and driver information.
 
    ```shell
    aht20 (-i | --information)
    ```
 
-2. Show aht20 chip and driver information.
+2. Show aht20 help.
 
    ```shell
    aht20 (-h | --help)
