@@ -58,13 +58,13 @@ We use '\n' to wrap lines.If your serial port assistant displays exceptions (e.g
    aht20 (-p | --port)
    ```
 
-4. Run aht20 read test, times means test times.
+4. Run aht20 read test, num means test times.
 
    ```shell
    aht20 (-t read | --test=read) [--times=<num>]
    ```
 
-5. Run aht20 read function, times means test times.
+5. Run aht20 read function, num means test times.
 
    ```shell
    aht20 (-e read | --example=read) [--times=<num>]
