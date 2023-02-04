@@ -74,7 +74,7 @@ uint8_t aht20(uint8_t argc, char **argv)
         {"times", required_argument, NULL, 1},
         {NULL, 0, NULL, 0},
     };
-    char type[33] = "unknow";
+    char type[33] = "unknown";
     uint32_t times = 3;
     
     /* if no params */
@@ -291,7 +291,7 @@ int main(void)
     /* uart init */
     uart_init(115200);
     
-    /* shell init && register aht20 fuction */
+    /* shell init && register aht20 function */
     shell_init();
     shell_register("aht20", aht20);
     uart_print("aht20: welcome to libdriver aht20.\n");
@@ -314,7 +314,7 @@ int main(void)
             }
             else if (res == 2)
             {
-                uart_print("aht20: unknow command.\n");
+                uart_print("aht20: unknown command.\n");
             }
             else if (res == 3)
             {
@@ -330,7 +330,7 @@ int main(void)
             }
             else
             {
-                uart_print("aht20: unknow status code.\n");
+                uart_print("aht20: unknown status code.\n");
             }
             uart_flush();
         }

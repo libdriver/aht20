@@ -5,8 +5,8 @@
     <configuration>
         <name>Release</name>
         <outputs>
-            <file>$PROJ_DIR$\..\usr\src\stm32f4xx_it.c</file>
             <file>$PROJ_DIR$\..\usr\src\shell.c</file>
+            <file>$PROJ_DIR$\..\usr\src\stm32f4xx_it.c</file>
             <file>$PROJ_DIR$\..\usr\src\getopt.c</file>
             <file>$PROJ_DIR$\..\usr\src\main.c</file>
             <file>$PROJ_DIR$\..\usr\src\stm32f4xx_hal_msp.c</file>
