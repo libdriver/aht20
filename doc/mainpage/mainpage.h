@@ -1,6 +1,6 @@
 /**
  * @mainpage  LibDriver AHT20
- * @brief     libdriver aht20 is a full function driver of aht20 and it can run in both MCU and Linux platform.
+ * @brief     LibDriver AHT20 is a full function driver of AHT20 and it can run in both MCU and Linux platform.
  * @version   1.0.0
  * @author    Shifeng Li
  *
