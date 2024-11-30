@@ -55,9 +55,9 @@
 
 /**
  * @brief      read bytes
- * @param[in]  *handle points to an aht20 handle structure
- * @param[out] *data points to a data buffer
- * @param[in]  len is the data length
+ * @param[in]  *handle pointer to an aht20 handle structure
+ * @param[out] *data pointer to a data buffer
+ * @param[in]  len length of data
  * @return     status code
  *             - 0 success
  *             - 1 read failed
@@ -77,9 +77,9 @@ static uint8_t a_aht20_iic_read(aht20_handle_t *handle, uint8_t *data, uint16_t 
 
 /**
  * @brief     write bytes
- * @param[in] *handle points to an aht20 handle structure
- * @param[in] *data points to a data buffer
- * @param[in] len is the data length
+ * @param[in] *handle pointer to an aht20 handle structure
+ * @param[in] *data pointer to a data buffer
+ * @param[in] len length of data
  * @return    status code
  *            - 0 success
  *            - 1 write failed
@@ -99,8 +99,8 @@ static uint8_t a_aht20_iic_write(aht20_handle_t *handle, uint8_t *data, uint16_t
 
 /**
  * @brief     calculate the crc
- * @param[in] *data points to a data buffer
- * @param[in] len is the data length
+ * @param[in] *data pointer to a data buffer
+ * @param[in] len length of data
  * @return    crc
  * @note      none
  */
@@ -131,8 +131,8 @@ static uint8_t a_aht20_calc_crc(uint8_t *data, uint8_t len)
 
 /**
  * @brief     reset the register
- * @param[in] *handle points to an aht20 handle structure
- * @param[in] addr is the reset register
+ * @param[in] *handle pointer to an aht20 handle structure
+ * @param[in] addr reset register
  * @return    status code
  *            - 0 success
  *            - 1 reset failed
@@ -169,7 +169,7 @@ static uint8_t a_aht20_jh_reset_reg(aht20_handle_t *handle, uint8_t addr)
 
 /**
  * @brief     initialize the chip
- * @param[in] *handle points to an aht20 handle structure
+ * @param[in] *handle pointer to an aht20 handle structure
  * @return    status code
  *            - 0 success
  *            - 1 iic failed
@@ -268,7 +268,7 @@ uint8_t aht20_init(aht20_handle_t *handle)
 
 /**
  * @brief     close the chip
- * @param[in] *handle points to an aht20 handle structure
+ * @param[in] *handle pointer to an aht20 handle structure
  * @return    status code
  *            - 0 success
  *            - 1 deinit failed
@@ -300,11 +300,11 @@ uint8_t aht20_deinit(aht20_handle_t *handle)
 
 /**
  * @brief      read the temperature and humidity data
- * @param[in]  *handle points to an aht20 handle structure
- * @param[out] *temperature_raw points to a raw temperature buffer
- * @param[out] *temperature_s points to a converted temperature buffer
- * @param[out] *humidity_raw points to a raw humidity buffer
- * @param[out] *humidity_s points to a converted humidity buffer
+ * @param[in]  *handle pointer to an aht20 handle structure
+ * @param[out] *temperature_raw pointer to a raw temperature buffer
+ * @param[out] *temperature_s pointer to a converted temperature buffer
+ * @param[out] *humidity_raw pointer to a raw humidity buffer
+ * @param[out] *humidity_s pointer to a converted humidity buffer
  * @return     status code
  *             - 0 success
  *             - 1 read temperature humidity failed
@@ -386,9 +386,9 @@ uint8_t aht20_read_temperature_humidity(aht20_handle_t *handle, uint32_t *temper
 
 /**
  * @brief      read the temperature
- * @param[in]  *handle points to an aht20 handle structure
- * @param[out] *temperature_raw points to a raw temperature buffer
- * @param[out] *temperature_s points to a converted temperature buffer
+ * @param[in]  *handle pointer to an aht20 handle structure
+ * @param[out] *temperature_raw pointer to a raw temperature buffer
+ * @param[out] *temperature_s pointer to a converted temperature buffer
  * @return     status code
  *             - 0 success
  *             - 1 read temperature failed
@@ -463,9 +463,9 @@ uint8_t aht20_read_temperature(aht20_handle_t *handle, uint32_t *temperature_raw
 
 /**
  * @brief      read the humidity data
- * @param[in]  *handle points to an aht20 handle structure
- * @param[out] *humidity_raw points to a raw humidity buffer
- * @param[out] *humidity_s points to a converted humidity buffer
+ * @param[in]  *handle pointer to an aht20 handle structure
+ * @param[out] *humidity_raw pointer to a raw humidity buffer
+ * @param[out] *humidity_s pointer to a converted humidity buffer
  * @return     status code
  *             - 0 success
  *             - 1 read humidity failed
@@ -539,9 +539,9 @@ uint8_t aht20_read_humidity(aht20_handle_t *handle, uint32_t *humidity_raw, uint
 
 /**
  * @brief     set the chip register
- * @param[in] *handle points to an aht20 handle structure
- * @param[in] *buf points to a data buffer
- * @param[in] len is the data buffer length
+ * @param[in] *handle pointer to an aht20 handle structure
+ * @param[in] *buf pointer to a data buffer
+ * @param[in] len length of data buffer
  * @return    status code
  *            - 0 success
  *            - 1 write failed
@@ -572,9 +572,9 @@ uint8_t aht20_set_reg(aht20_handle_t *handle, uint8_t *buf, uint16_t len)
 
 /**
  * @brief      get the chip register
- * @param[in]  *handle points to an aht20 handle structure
- * @param[out] *buf points to a data buffer
- * @param[in]  len is the data buffer length
+ * @param[in]  *handle pointer to an aht20 handle structure
+ * @param[out] *buf pointer to a data buffer
+ * @param[in]  len length of data buffer
  * @return     status code
  *             - 0 success
  *             - 1 read failed
@@ -605,7 +605,7 @@ uint8_t aht20_get_reg(aht20_handle_t *handle, uint8_t *buf, uint16_t len)
 
 /**
  * @brief      get chip's information
- * @param[out] *info points to an aht20 info structure
+ * @param[out] *info pointer to an aht20 info structure
  * @return     status code
  *             - 0 success
  *             - 2 handle is NULL
