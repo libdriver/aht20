@@ -10,7 +10,7 @@
 
 As a new generation of temperature and humidity sensors, AHT20 sets a new standard in terms of size and performance: a two-row flat pin less SMD package suitable for reflow soldering, bottom face 3x3mm, height 1.0mm.The sensor outputs calibrated digital signals in standard IIC format.AHT20 is equipped with a newly designed ASIC dedicated chip, an improved MEMS semiconductor capacitive humidity sensor element and a standard on-chip temperature sensor element. Its performance has been greatly improved or even exceeded the reliability level of the previous generation of sensors. A generation of temperature and humidity sensors have been improved to make their performance more stable in harsh environments.Each sensor is calibrated and tested, and the product lot number is printed on the surface of the product. Due to improvements and miniaturization of the sensor, it is more cost-effective, and ultimately all devices will benefit from cutting-edge energy-saving operation modes. It is used in consumer electronics, medical, automotive, industrial, meteorological and other fields.
 
-LibDriver AHT20 is a full-featured driver of AHT20 launched by LibDriver.It provides the function of reading temperature and relative humidity. LibDriver is MISRA compliant.
+LibDriver AHT20 is a full-featured driver for AHT20, launched by LibDriver.It provides temperature reading, relative humidity reading and additional features. LibDriver is MISRA compliant.
 
 ### Table of Contents
 
